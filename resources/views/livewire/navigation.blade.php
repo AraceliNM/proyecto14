@@ -66,5 +66,6 @@
                 </x-jet-dropdown>
             @endauth
         </div>
+        @livewire('dropdown-cart')
     </div>
 </header>
