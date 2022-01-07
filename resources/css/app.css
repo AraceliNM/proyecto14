@@ -1,4 +1,9 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-@import 'container.css';
+
+@layer components {
+    .container-menu {
+        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    }
+}
