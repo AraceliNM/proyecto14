@@ -27,7 +27,7 @@
                         </span>
                         <div class="ml-4">
                             <p class="text-lg font-semibold text-lime-600">Se hacen envíos solo a la península</p>
-                            <p>Recíbelo el {{ now()->addDay(7)->format('l j F') }}</p>
+                            <p>Recíbelo el {{ Date::now()->addDay(7)->locale('es')->format('l j F') }}</p>
                         </div>
                     </div>
                 </div>
