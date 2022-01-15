@@ -14,7 +14,7 @@ class CategoryProducts extends Component
     {
         $this->products = $this->category->products;
 
-        $this->emit('glider');
+        $this->emit('glider', $this->category->id);
     }
 
     public function render()
