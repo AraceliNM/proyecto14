@@ -8,16 +8,20 @@
         </section>
     </div>
 
-    <script>
-        new Glider(document.querySelector('.glider'), {
-            slidesToShow: 5.5,
-            slidesToScroll: 5,
-            draggable: true,
-            dots: '.dots',
-            arrows: {
-                prev: '.glider-prev',
-                next: '.glider-next'
-            }
-        });
-    </script>
+    @push('scripts')
+        <script>
+            Livewire.on('glider', function () {
+                new Glider(document.querySelector('.glider'), {
+                    slidesToShow: 5.5,
+                    slidesToScroll: 5,
+                    draggable: true,
+                    dots: '.dots',
+                    arrows: {
+                        prev: '.glider-prev',
+                        next: '.glider-next'
+                    }
+                });
+            });
+        </script>
+    @endpush
 </x-app-layout>
