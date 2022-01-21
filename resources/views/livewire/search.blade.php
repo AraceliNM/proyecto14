@@ -6,8 +6,8 @@
         <x-search size="35" color="white"></x-search>
     </button>
 
-    <div class="absolute w-full">
-        <div class="bg-white rounded-lg shadow mt-1">
+    <div class="absolute w-full mt-1 hidden" :class="{ 'hidden' : !$wire.open }" @click.away="$wire.open = false">
+        <div class="bg-white rounded-lg shadow-lg">
             <div class="px-4 py-3 space-y-1">
                 @forelse ($products as $product)
                     <div class="flex">
@@ -18,7 +18,9 @@
                         </div>
                     </div>
                 @empty
-
+                    <p class="text-lg leading-5">
+                        No existe ningún registro con los parámetros especificados
+                    </p>
                 @endforelse
             </div>
         </div>
