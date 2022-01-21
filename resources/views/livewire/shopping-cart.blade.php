@@ -34,22 +34,26 @@
                         </div>
                     </td>
 
-                    <td>
+                    <td class="text-center">
                         <span>{{ $item->price }} &euro;</span>
                         <a class="ml-6 cursor-pointer hover:text-red-600">
                             <i class="fas fa-trash"></i>
                         </a>
                     </td>
                     <td>
-                        @if($item->options->size)
-                            @livewire('update-cart-item-size', ['rowId' => $item->rowId], key($item->rowId))
-                        @elseif($item->options->color)
-                            @livewire('update-cart-item-color', ['rowId' => $item->rowId], key($item->rowId))
-                        @else
-                            @livewire('update-cart-item', ['rowId' => $item->rowId], key($item->rowId))
-                        @endif
+                        <div class="flex justify-center">
+                            @if($item->options->size)
+                                @livewire('update-cart-item-size', ['rowId' => $item->rowId], key($item->rowId))
+                            @elseif($item->options->color)
+                                @livewire('update-cart-item-color', ['rowId' => $item->rowId], key($item->rowId))
+                            @else
+                                @livewire('update-cart-item', ['rowId' => $item->rowId], key($item->rowId))
+                            @endif
+                        </div>
                     </td>
-                    <td></td>
+                    <td class="text-center">
+                        {{ $item->price * $item->qty }} &euro;
+                    </td>
                 </tr>
             @endforeach
             </tbody>
