@@ -2,11 +2,19 @@
 
 namespace App\Http\Livewire;
 
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
 
 class ShoppingCart extends Component
 {
     public $listeners = ['render'];
+
+    public function destroy()
+    {
+        Cart::destroy();
+
+        $this->emitTo('dropdown-cart', 'render');
+    }
 
     public function render()
     {
