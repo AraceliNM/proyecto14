@@ -32,6 +32,15 @@ class CreateOrder extends Component
         $this->validate($rules);
     }
 
+    public function updatedEnvioType($value)
+    {
+        if ($value == 1) {
+            $this->resetValidation([
+                'department_id', 'city_id', 'district_id', 'address', 'reference',
+            ]);
+        }
+    }
+
     public function mount()
     {
         $this->departments = Department::all();
