@@ -10,6 +10,7 @@
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
+            <x-jet-input-error for="category_id" />
         </div>
         <div>
             <x-jet-label value="Subcategorías" />
@@ -19,6 +20,7 @@
                     <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
                 @endforeach
             </select>
+            <x-jet-input-error for="subcategory_id" />
         </div>
     </div>
 
@@ -30,6 +32,7 @@
                          wire:model="name"
                          placeholder="Ingrese el nombre del producto" />
         </div>
+        <x-jet-input-error for="name" />
     </div>
 
     <div class="mb-4">
@@ -39,6 +42,7 @@
                      wire:model="slug"
                      class="w-full bg-gray-200"
                      placeholder="Ingrese el slug del producto" />
+        <x-jet-input-error for="slug" />
     </div>
 
     <div class="mb-4">
@@ -59,6 +63,7 @@
                       x-ref="miEditor">
             </textarea>
         </div>
+        <x-jet-input-error for="description" />
     </div>
 
     <div class="grid grid-cols-2 gap-6 mb-4">
@@ -70,6 +75,7 @@
                     <option value="{{$brand->id}}">{{$brand->name}}</option>
                 @endforeach
             </select>
+            <x-jet-input-error for="brand_id" />
         </div>
 
         <div>
@@ -79,6 +85,7 @@
                 type="number"
                 class="w-full"
                 step=".01" />
+            <x-jet-input-error for="price" />
         </div>
     </div>
 
@@ -89,6 +96,17 @@
                 wire:model="quantity"
                 type="number"
                 class="w-full" />
+            <x-jet-input-error for="quantity" />
         </div>
     @endif
+
+    <div class="flex mt-4">
+        <x-jet-button
+            wire:loading.attr="disabled"
+            wire:target="save"
+            wire:click="save"
+            class="ml-auto">
+            Crear producto
+        </x-jet-button>
+    </div>
 </div>
