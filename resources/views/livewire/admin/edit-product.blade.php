@@ -52,7 +52,7 @@
                       x-init="ClassicEditor.create($refs.miEditor)
                         .then(function(editor){
                             editor.model.document.on('change:data', () => {
-                                @this.set('description', editor.getData())
+                                @this.set('product.description', editor.getData())
                             })
                         })
                         .catch( error => {
@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    @if (!$this->subcategory->color && !$this->subcategory->size)
+    @if ($this->subcategory && !$this->subcategory->color && !$this->subcategory->size)
         <div>
             <x-jet-label value="Cantidad" />
             <x-jet-input
