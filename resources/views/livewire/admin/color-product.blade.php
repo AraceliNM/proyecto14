@@ -74,4 +74,40 @@
             </tbody>
         </table>
     </div>
+
+    <x-jet-dialog-modal wire:model="open">
+        <x-slot name="title">
+            Editar colores
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="mb-4">
+                <x-jet-label>
+                    Color
+                </x-jet-label>
+                <select class="form-control w-full">
+                    <option value="">Seleccione un color</option>
+                    @foreach ($colors as $color)
+                        <option value="{{ $color->id }}">{{ __(ucfirst($color->name)) }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <x-jet-label>
+                    Cantidad
+                </x-jet-label>
+                <x-jet-input class="w-full" placeholder="Ingrese una cantidad" />
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-jet-secondary-button>
+                Cancelar
+            </x-jet-secondary-button>
+
+            <x-jet-button>
+                Actualizar
+            </x-jet-button>
+        </x-slot>
+    </x-jet-dialog-modal>
 </div>
