@@ -33,6 +33,7 @@ class ColorProduct extends Component
         ]);
 
         $this->reset(['color_id', 'quantity']);
+        
         $this->emit('saved');
 
         $this->product = $this->product->fresh();
@@ -44,6 +45,18 @@ class ColorProduct extends Component
         $this->pivot = $pivot;
         $this->pivot_color_id = $pivot->color_id;
         $this->pivot_quantity = $pivot->quantity;
+    }
+
+    public function update()
+    {
+        $this->pivot->color_id = $this->pivot_color_id;
+        $this->pivot->quantity = $this->pivot_quantity;
+
+        $this->pivot->save();
+
+        $this->product = $this->product->fresh();
+
+        $this->open = false;
     }
 
     public function render()

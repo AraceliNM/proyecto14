@@ -110,7 +110,7 @@
                 Cancelar
             </x-jet-secondary-button>
 
-            <x-jet-button>
+            <x-jet-button wire:click="update" wire:loading.attr="disabled" wire:target="update">
                 Actualizar
             </x-jet-button>
         </x-slot>
