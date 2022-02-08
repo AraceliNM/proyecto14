@@ -18,6 +18,8 @@ class ColorProduct extends Component
         'quantity' => 'required|numeric'
     ];
 
+    protected $listeners = ['delete'];
+
     public function mount()
     {
         $this->colors = Color::all();
@@ -33,7 +35,7 @@ class ColorProduct extends Component
         ]);
 
         $this->reset(['color_id', 'quantity']);
-        
+
         $this->emit('saved');
 
         $this->product = $this->product->fresh();
@@ -57,6 +59,12 @@ class ColorProduct extends Component
         $this->product = $this->product->fresh();
 
         $this->open = false;
+    }
+
+    public function delete(TbPivot $pivot)
+    {
+        $pivot->delete();
+        $this->product = $this->product->fresh();
     }
 
     public function render()
