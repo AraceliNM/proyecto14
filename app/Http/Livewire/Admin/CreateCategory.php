@@ -20,6 +20,7 @@ class CreateCategory extends Component
         'image' => null,
         'brands' => [],
     ];
+    public $listeners = ['delete'];
 
     protected $rules = [
         'createForm.name' => 'required',
@@ -78,6 +79,12 @@ class CreateCategory extends Component
     public function getCategories()
     {
         $this->categories = Category::all();
+    }
+
+    public function delete(Category $category)
+    {
+        $category->delete();
+        $this->getCategories();
     }
 
     public function render()
