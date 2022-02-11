@@ -1,9 +1,10 @@
-<div>
-    <div class="my-12 bg-white shadow-lg rounded-lg p-6">
+<div class="mt-4">
+    <div class="bg-gray-100 shadow-lg rounded-lg p-6">
         <div class="mb-6">
             <x-jet-label>
                 Color
             </x-jet-label>
+
             <div class="grid grid-cols-6 gap-6">
                 @foreach ($colors as $color)
                     <label>
@@ -14,30 +15,33 @@
                     </label>
                 @endforeach
             </div>
+
             <x-jet-input-error for="color_id" />
+        </div>
+
+        <div>
+            <x-jet-label>
+                Cantidad
+            </x-jet-label>
+
+            <x-jet-input type="number" wire:model.defer="quantity" placeholder="Ingrese una cantidad" class="w-full" />
+
+            <x-jet-input-error for="quantity" />
+        </div>
+
+        <div class="flex justify-end items-center mt-4">
+            <x-jet-action-message class="mr-3" on="saved">
+                Agregado
+            </x-jet-action-message>
+
+            <x-jet-button wire:loading.attr="disabled" wire:target="save" wire:click="save">
+                Agregar
+            </x-jet-button>
         </div>
     </div>
 
-    <div>
-        <x-jet-label>
-            Cantidad
-        </x-jet-label>
-
-        <x-jet-input type="number" wire:model.defer="quantity" placeholder="Ingrese una cantidad" class="w-full" />
-        <x-jet-input-error for="quantity" />
-    </div>
-
-    <div class="flex justify-end items-center mt-4">
-        <x-jet-action-message class="mr-3" on="saved">
-            Agregado
-        </x-jet-action-message>
-        <x-jet-button wire:loading.attr="disabled" wire:target="save" wire:click="save">
-            Agregar
-        </x-jet-button>
-    </div>
-
-    @if($productColors->count())
-        <div class="bg-white shadow-lg rounded-lg p-6">
+    @if($sizeColors->count())
+        <div class="mt-4">
             <table>
                 <thead>
                 <tr>
@@ -54,7 +58,7 @@
                 </thead>
 
                 <tbody>
-                @foreach($productColors as $color)
+                @foreach($sizeColors as $color)
                     <tr wire:key="product_color-{{ $color->pivot->id }}">
                         <td class="capitalize px-4 py-2">
                             {{ __(ucfirst($colors->find($color->pivot->color_id)->name)) }}
@@ -68,11 +72,11 @@
                                 wire:click="edit({{ $color->pivot->id }})"
                                 wire:loading.attr="disabled"
                                 wire:target="edit({{ $color->pivot->id }})">
-                            Actualizar
+                                Actualizar
                             </x-jet-secondary-button>
                             <x-jet-danger-button
-                                wire:click="$emit('deleteColor', {{ $color->pivot->id }})">
-                            Eliminar
+                                wire:click="$emit('deleteColorSize', {{ $color->pivot->id }})">
+                                Eliminar
                             </x-jet-danger-button>
                         </td>
                     </tr>
@@ -106,8 +110,8 @@
                 <x-jet-input class="w-full" wire:model="pivot_quantity" type="number"
                              placeholder="Ingrese una cantidad" />
             </div>
-        </x-slot>
 
+        </x-slot>
         <x-slot name="footer">
             <x-jet-secondary-button wire:click="$set('open', false)">
                 Cancelar
