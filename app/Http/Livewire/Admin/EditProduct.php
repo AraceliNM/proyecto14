@@ -102,7 +102,7 @@ class EditProduct extends Component
         }
 
         $this->product->delete();
-        
+
         return redirect()->route('admin.index');
     }
 
