@@ -2,14 +2,17 @@
 
 namespace App\Http\Livewire\Admin;
 
-use WithFileUploads;
+use App\Models\Category;
+use Livewire\WithFileUploads;
 use App\Models\Brand;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
 class CreateCategory extends Component
 {
-    public $brands;
+    use WithFileUploads;
+
+    public $brands, $image;
     public $createForm = [
         'name' => null,
         'slug' => null,
@@ -36,6 +39,7 @@ class CreateCategory extends Component
     public function mount()
     {
         $this->getBrands();
+        $this->image = 1;
     }
 
     public function getBrands()
@@ -46,6 +50,20 @@ class CreateCategory extends Component
     public function save()
     {
         $this->validate();
+
+        $image = $this->createForm['image']->store('categories', 'public');
+
+        $category = Category::create([
+            'name' => $this->createForm['name'],
+            'slug' => $this->createForm['slug'],
+            'icon' => $this->createForm['icon'],
+            'image' => $image
+        ]);
+
+        $category->brands()->attach($this->createForm['brands']);
+
+        $this->image = 2;
+        $this->reset('createForm');
     }
 
     public function updatedCreateFormName($value)
