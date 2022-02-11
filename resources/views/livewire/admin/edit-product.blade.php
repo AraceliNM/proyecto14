@@ -26,6 +26,8 @@
         </section>
     @endif
 
+    @livewire('admin.status-product', ['product' => $product], key('status-product-' . $product->id))
+
     <div class="bg-white shadow-xl rounded-lg p-6">
         <div class="grid grid-cols-2 gap-6 mb-4">
             <div>
