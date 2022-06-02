@@ -1,15 +1,20 @@
 <x-app-layout>
     <div class="container-menu py-8">
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div>
                 <div class="flexslider">
                     <ul class="slides">
                         @foreach($product->images as $image)
                             <li data-thumb="{{ Storage::url($image->url) }}">
-                                <img src="{{ Storage::url($image->url) }}" />
+                                <img dusk="imageProduct" src="{{ Storage::url($image->url) }}" />
                             </li>
                         @endforeach
                     </ul>
+                </div>
+
+                <div class="-mt-10 text-gray-700">
+                    <h2 class="font-bold text-lg">Descripción</h2>
+                    {!! $product->description !!}
                 </div>
             </div>
             <div>

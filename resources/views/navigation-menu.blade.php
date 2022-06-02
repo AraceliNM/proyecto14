@@ -16,8 +16,24 @@
                         Productos
                     </x-jet-nav-link>
 
-                    <x-jet-nav-link href="{{ route('admin.categories.index') }}" :active="request()->routeIs('admin.categories.index')">
+                    <x-jet-nav-link href="{{ route('admin.orders.index') }}" :active="request()->routeIs('admin.orders.*')">
+                        Pedidos
+                    </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('admin.categories.index') }}" :active="request()->routeIs('admin.categories.*')">
                         Categorías
+                    </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('admin.brands.index') }}" :active="request()->routeIs('admin.brands.*')">
+                        Marcas
+                    </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('admin.departments.index') }}" :active="request()->routeIs('admin.departments.*')">
+                        Departamentos
+                    </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">
+                        Usuarios
                     </x-jet-nav-link>
                 </div>
             </div>
@@ -146,8 +162,24 @@
                 Productos
             </x-jet-responsive-nav-link>
 
-            <x-jet-responsive-nav-link href="{{ route('admin.categories.index') }}" :active="request()->routeIs('admin.categories.index')">
+            <x-jet-responsive-nav-link href="{{ route('admin.orders.index') }}" :active="request()->routeIs('admin.orders.*')">
+                Pedidos
+            </x-jet-responsive-nav-link>
+
+            <x-jet-responsive-nav-link href="{{ route('admin.categories.index') }}" :active="request()->routeIs('admin.categories.*')">
                 Categorías
+            </x-jet-responsive-nav-link>
+
+            <x-jet-responsive-nav-link href="{{ route('admin.brands.index') }}" :active="request()->routeIs('admin.brands.*')">
+                Marcas
+            </x-jet-responsive-nav-link>
+
+            <x-jet-responsive-nav-link href="{{ route('admin.departments.index') }}" :active="request()->routeIs('admin.departments.*')">
+                Departamentos
+            </x-jet-responsive-nav-link>
+
+            <x-jet-responsive-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">
+                Usuarios
             </x-jet-responsive-nav-link>
         </div>
 
