@@ -18,55 +18,130 @@ class Semana3Test extends DuskTestCase
     /** @test */
     public function add_product_without_color_or_size_in_shopping_cart()
     {
-        $category = Category::factory()->create();
-        $product1 = $this->createProduct($category);
+        $category = $this->createCategory();
 
-        $this->browse(function (Browser $browser) use ($product1) {
-            $browser->visit('/products/' . $product1->slug)
+        $subcategory = $this->createSubcategory($category->id);
+
+        $brand = $this->createBrand($category->id);
+
+        $product = $this->createProduct($subcategory->id, $brand->id);
+
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/products/' . $product->slug)
                 ->assertPresent('@addItemButton')
                 ->click('@addItemButton')
                 ->pause(500)
                 ->click('@shoppingCart')
-                ->screenshot('AddProduct-test');
+                ->screenshot('AddProduct');
         });
     }
 
     /** @test */
     public function add_product_with_color_in_shopping_cart()
     {
-        $category = Category::factory()->create();
-        $product1 = $this->createProduct($category, Product::PUBLICADO, true);
+        $category = $this->createCategory();
 
-        $this->browse(function (Browser $browser) use ($product1) {
-            $browser->visit('/products/' . $product1->slug)
-                ->assertNotPresent('@addItemButton')
+        $subcategory = $this->createSubcategory($category->id,true);
+
+        $brand = $this->createBrand($category->id);
+
+        $color = $this->createColor();
+
+        $product = $this->createProduct($subcategory->id, $brand->id, Product::PUBLICADO, array($color));
+
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/products/' . $product->slug)
+                ->assertPresent('@colorSelect')
+                ->pause(500)
                 ->click('@colorSelect')
-                ->screenshot('AddProductWithColor-test');
+                ->pause(500)
+                ->click('@color', 1)
+                ->pause(500)
+                ->click('@addCartItemColor')
+                ->pause(500)
+                ->click('@shoppingCart')
+                ->screenshot('AddProductWithColor');
         });
     }
 
-    public function createProduct($category, $status = Product::PUBLICADO, $color = false, $size = false) {
-        $brand = Brand::factory()->create();
+    /** @test */
+    public function add_product_with_color_and_size_in_shopping_cart()
+    {
+        $category = $this->createCategory();
 
-        $category->brands()->attach($brand->id);
+        $subcategory = $this->createSubcategory($category->id,true, true);
 
-        $subcategory = Subcategory::factory()->create([
-            'category_id' => $category->id,
-            'color' => $color,
-            'size' => $size
-        ]);
+        $brand = $this->createBrand($category->id);
 
-        $product = Product::factory()->create([
-            'subcategory_id' => $subcategory->id,
-            'brand_id' => $brand->id,
-            'status' => $status
-        ]);
+        $color = $this->createColor();
 
-        Image::factory()->create([
-            'imageable_id' => $product->id,
-            'imageable_type' => Product::class,
-        ]);
+        $product = $this->createProduct($subcategory->id, $brand->id, Product::PUBLICADO, array($color));
 
-        return $product;
+        $size = $this->createSize($product->id, array($color));
+
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/products/' . $product->slug)
+                ->assertPresent('@sizeSelect')
+                ->assertPresent('@colorSelect')
+                ->pause(500)
+                ->click('@sizeSelect')
+                ->pause(500)
+                ->click('@size', 1)
+                ->pause(500)
+                ->click('@colorSelect')
+                ->pause(500)
+                ->click('@colorSize', 1)
+                ->pause(500)
+                ->click('@addCartItemSize')
+                ->pause(500)
+                ->click('@shoppingCart')
+                ->screenshot('AddProductWithColorAndSize');
+        });
+    }
+
+    /** @test */
+    public function the_red_circle_increments_when_adding_a_product_in_cart()
+    {
+        $category = $this->createCategory();
+
+        $subcategory = $this->createSubcategory($category->id);
+
+        $brand = $this->createBrand($category->id);
+
+        $product = $this->createProduct($subcategory->id, $brand->id);
+
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/products/' . $product->slug)
+                ->assertPresent('@addItemButton')
+                ->click('@addItemButton')
+                ->pause(500)
+                ->visit('/')
+                ->assertSee('1')
+                ->screenshot('redCircleIncrements');
+        });
+    }
+
+    /** @test */
+    public function it_cannot_add_to_cart_over_the_max_quantity_the_product()
+    {
+        $category = $this->createCategory();
+
+        $subcategory = $this->createSubcategory($category->id);
+
+        $brand = $this->createBrand($category->id);
+
+        $product = $this->createProduct3($subcategory->id, $brand->id);
+
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/products/' . $product->slug)
+                ->assertPresent('@addItemButton')
+                ->click('@incrementButton')
+                ->click('@incrementButton')
+                ->click('@incrementButton')
+                ->click('@addItemButton')
+                ->pause(500)
+                ->assertDisabled('@addItemButton')
+                ->screenshot('cannotAddMoreThanStockAvaible');
+        });
     }
 }
