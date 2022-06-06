@@ -32,7 +32,7 @@ class Semana3Test extends DuskTestCase
                 ->click('@addItemButton')
                 ->pause(500)
                 ->click('@shoppingCart')
-                ->screenshot('AddProduct');
+                ->screenshot('addProduct');
         });
     }
 
@@ -60,7 +60,7 @@ class Semana3Test extends DuskTestCase
                 ->click('@addCartItemColor')
                 ->pause(500)
                 ->click('@shoppingCart')
-                ->screenshot('AddProductWithColor');
+                ->screenshot('addProductWithColor');
         });
     }
 
@@ -95,7 +95,7 @@ class Semana3Test extends DuskTestCase
                 ->click('@addCartItemSize')
                 ->pause(500)
                 ->click('@shoppingCart')
-                ->screenshot('AddProductWithColorAndSize');
+                ->screenshot('addProductWithColorAndSize');
         });
     }
 
@@ -142,6 +142,119 @@ class Semana3Test extends DuskTestCase
                 ->pause(500)
                 ->assertDisabled('@addItemButton')
                 ->screenshot('cannotAddMoreThanStockAvaible');
+        });
+    }
+
+    /** @test */
+    public function show_the_products_in_cart_view()
+    {
+        $category = $this->createCategory();
+
+        $subcategory = $this->createSubcategory($category->id);
+
+        $brand = $this->createBrand($category->id);
+
+        $product =  $this->createProduct($subcategory->id, $brand->id);
+
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/products/' . $product->slug)
+                ->assertPresent('@addItemButton')
+                ->click('@addItemButton')
+                ->pause(500)
+                ->click('@shoppingCart')
+                ->click('@dropdownCart')
+                ->pause(500)
+                ->assertSee('CARRITO DE COMPRAS')
+                ->assertSee($product->name)
+                ->assertSee($product->price)
+                ->assertSee('Total: ' . $product->price . ' €')
+                ->screenshot('showTheProductsInCartView');
+        });
+    }
+
+    /** @test */
+    public function change_the_product_quantity_in_cart_view()
+    {
+        $category = $this->createCategory();
+
+        $subcategory = $this->createSubcategory($category->id);
+
+        $brand = $this->createBrand($category->id);
+
+        $product =  $this->createProduct($subcategory->id, $brand->id);
+
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/products/' . $product->slug)
+                ->click('@addItemButton')
+                ->pause(500)
+                ->click('@shoppingCart')
+                ->pause(500)
+                ->click('@dropdownCart')
+                ->pause(500)
+                ->assertSee('CARRITO DE COMPRAS')
+                ->assertSee($product->name)
+                ->click('@cartIncrementButton')
+                ->pause(500)
+                ->assertSee('Total: ' . $product->price * $product->quantity . ' €')
+                ->pause(500)
+                ->screenshot('changeTheProductQuantity');
+        });
+    }
+
+    /** @test */
+    public function delete_a_products_and_empty_the_cart()
+    {
+        $category = $this->createCategory();
+
+        $subcategory = $this->createSubcategory($category->id);
+
+        $brand = $this->createBrand($category->id);
+
+        $product =  $this->createProduct($subcategory->id, $brand->id);
+        $product2 =  $this->createProduct($subcategory->id, $brand->id);
+
+        $this->browse(function (Browser $browser) use ($product, $product2) {
+            $browser->visit('/products/' . $product->slug)
+                ->click('@addItemButton')
+                ->pause(500)
+                ->visit('/products/' . $product2->slug)
+                ->pause(500)
+                ->click('@addItemButton')
+                ->pause(500)
+                ->click('@shoppingCart')
+                ->pause(500)
+                ->click('@dropdownCart')
+                ->pause(500)
+                ->assertSee('CARRITO DE COMPRAS')
+                ->assertSee($product->name)
+                ->assertSee($product2->name)
+                ->pause(500)
+                ->click('@deleteProduct')
+                ->pause(500)
+                ->assertDontSee($product->name)
+                ->assertSee($product2->name)
+                ->screenshot('deleteProductsInCart');
+
+            $browser->visit('/products/' . $product->slug)
+                ->click('@addItemButton')
+                ->pause(500)
+                ->visit('/products/' . $product2->slug)
+                ->pause(500)
+                ->click('@addItemButton')
+                ->pause(500)
+                ->click('@shoppingCart')
+                ->pause(500)
+                ->click('@dropdownCart')
+                ->pause(500)
+                ->assertSee('CARRITO DE COMPRAS')
+                ->assertSee($product->name)
+                ->assertSee($product2->name)
+                ->pause(500)
+                ->click('@destroyCart')
+                ->pause(500)
+                ->assertDontSee($product->name)
+                ->assertDontSee($product2->name)
+                ->screenshot('destroyCart');
         });
     }
 }

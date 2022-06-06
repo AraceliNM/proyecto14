@@ -43,7 +43,7 @@ class Semana1Test extends DuskTestCase
                 ->click('@showCategory')
                 ->mouseover('@category')
                 ->assertSee($subcategory->name)
-                ->screenshot('ShowSubcategory');
+                ->screenshot('showSubcategory');
         });
     }
 }
