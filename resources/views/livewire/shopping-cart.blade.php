@@ -118,7 +118,7 @@
                     {{ Cart::subtotal() }} &euro;
                 </div>
                 <div>
-                    <x-button-link href="{{ route('orders.create') }}">
+                    <x-button-link dusk="OrderCreate" href="{{ route('orders.create') }}">
                         Continuar
                     </x-button-link>
                 </div>
