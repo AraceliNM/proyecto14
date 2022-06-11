@@ -21,7 +21,7 @@
         </select>
     </div>
 
-    <p class="text-gray-700 my-4">
+    <p dusk="sizeStock" class="text-gray-700 my-4">
         <span class="font-semibold text-lg">Stock disponible:</span>
         @if($quantity)
             {{ $quantity }}

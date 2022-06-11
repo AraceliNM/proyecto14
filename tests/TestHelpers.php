@@ -9,7 +9,9 @@ use App\Models\Image;
 use App\Models\Product;
 use App\Models\Size;
 use App\Models\Subcategory;
+use App\Models\User;
 use Faker\Factory;
+use Spatie\Permission\Models\Role;
 
 trait TestHelpers
 {
@@ -81,7 +83,7 @@ trait TestHelpers
         if ($subcategory->color && !$subcategory->size && is_array($colors)) {
             foreach ($colors as $color) {
                 $product->colors()->attach([
-                    $color->id => ['quantity' => '50']
+                    $color->id => ['quantity' => '10']
                 ]);
             }
         }
@@ -113,5 +115,16 @@ trait TestHelpers
         $this->createImage($product->id, Product::class);
 
         return $product;
+    }
+
+    protected function createAdminUser()
+    {
+        $adminRole = Role::create(['name' => 'admin']);
+
+        $user = User::factory()->create();
+
+        $user->assignRole($adminRole);
+
+        return $user;
     }
 }

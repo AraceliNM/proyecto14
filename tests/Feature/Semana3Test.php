@@ -14,11 +14,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
 use Tests\TestCase;
-use Tests\TestHelpers;
 
 class Semana3Test extends TestCase
 {
-    use RefreshDatabase, TestHelpers;
+    use RefreshDatabase;
 
     /** @test */
     public function can_see_the_available_stock_of_product()
@@ -50,7 +49,7 @@ class Semana3Test extends TestCase
             ->set('options', ['color_id' => $color->id])
             ->call('addItem');
 
-        $this->assertEquals(qty_available($product2->id, $color->id), 49);
+        $this->assertEquals(qty_available($product2->id, $color->id), 9);
 
 
         Livewire::test(AddCartItemSize::class, ['product' => $product3])

@@ -38,7 +38,7 @@
                             {{ __('Profile') }}
                         </x-jet-dropdown-link>
 
-                        <x-jet-dropdown-link href="{{ route('orders.index') }}">
+                        <x-jet-dropdown-link dusk="myOrders" href="{{ route('orders.index') }}">
                             {{ __('My Orders') }}
                         </x-jet-dropdown-link>
 
