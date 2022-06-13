@@ -69,6 +69,15 @@ trait TestHelpers
         return $size;
     }
 
+    protected function createSize2($productId)
+    {
+        $size = Size::factory()->create([
+            'product_id' => $productId
+        ]);
+
+        return $size;
+    }
+
     protected function createProduct($subcategoryId, $brandId, $status = Product::PUBLICADO, $colors = null)
     {
         $subcategory = Subcategory::find($subcategoryId);
@@ -126,5 +135,35 @@ trait TestHelpers
         $user->assignRole($adminRole);
 
         return $user;
+    }
+
+    protected function createProductAll($hasColor = false, $hasSize = false, $status = Product::PUBLICADO, $quantity = 5)
+    {
+        $category = $this->createCategory();
+        $subcategory = $this->createSubcategory($category->id, $hasColor, $hasSize);
+        $brand = $this->createBrand($category->id);
+
+        $product = Product::factory()->create([
+            'subcategory_id' => $subcategory->id,
+            'brand_id' => $brand->id,
+            'status' => $status,
+            'quantity' => $quantity,
+            'price' => 29.99,
+        ]);
+
+        $this->createImage($product->id, Product::class);
+
+        if ($hasColor && !$hasSize) {
+            $product->quantity = null;
+            $color = $this->createColor();
+            $product->colors()->attach($color->id, ['quantity' => $quantity]);
+        } elseif ($hasColor && $hasSize) {
+            $product->quantity = null;
+            $color = $this->createColor();
+            $size = $this->createSize2($product->id);
+            $size->colors()->attach($color->id, ['quantity' => $quantity]);
+        }
+
+        return $product;
     }
 }
