@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div x-data="{dropdownMenu: false}" class="fixed inline-block ml-1">
+            <div x-data="{dropdownMenu: false}" class="relative inline-block ml-1">
                 <x-button-link @click="dropdownMenu = ! dropdownMenu" class="ml-5 flex items-center p-2 bg-orange-500 rounded-md">
                     <span class="ml-1">Mostrar Filtros</span>
                 </x-button-link>
@@ -74,7 +74,7 @@
             </div>
             <br>
         </div>
-        
+
         <div class="px-6 py-4">
             <x-jet-input class="w-full"
                          dusk="adminSearch"
